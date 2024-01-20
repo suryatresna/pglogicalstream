@@ -4,6 +4,10 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
+	"os"
+	"strings"
+	"time"
+
 	"github.com/apache/arrow/go/v14/arrow"
 	"github.com/apache/arrow/go/v14/arrow/array"
 	"github.com/apache/arrow/go/v14/arrow/memory"
@@ -13,12 +17,9 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgproto3"
-	"github.com/usedatabrew/pglogicalstream/internal/helpers"
-	"github.com/usedatabrew/pglogicalstream/internal/replication"
-	"github.com/usedatabrew/pglogicalstream/internal/schemas"
-	"os"
-	"strings"
-	"time"
+	"github.com/suryatresna/pglogicalstream/pkg/helpers"
+	"github.com/suryatresna/pglogicalstream/pkg/replication"
+	"github.com/suryatresna/pglogicalstream/pkg/schemas"
 )
 
 const outputPlugin = "wal2json"

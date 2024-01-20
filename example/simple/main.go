@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/charmbracelet/log"
-	"github.com/usedatabrew/pglogicalstream"
-	"github.com/usedatabrew/pglogicalstream/internal/replication"
-	"gopkg.in/yaml.v3"
 	"io/ioutil"
+
+	"github.com/charmbracelet/log"
+	"github.com/suryatresna/pglogicalstream"
+	"github.com/suryatresna/pglogicalstream/pkg/replication"
+	"gopkg.in/yaml.v3"
 )
 
 func main() {

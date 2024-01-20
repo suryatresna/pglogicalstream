@@ -1,14 +1,11 @@
-module github.com/usedatabrew/pglogicalstream
+module github.com/suryatresna/pglogicalstream
 
-go 1.21.1
-
-toolchain go1.21.2
+go 1.21.4
 
 require (
 	github.com/apache/arrow/go/v14 v14.0.0-20231026094059-c46fd24ededd
 	github.com/charmbracelet/log v0.3.0
 	github.com/cloudquery/plugin-sdk/v4 v4.16.1
-	github.com/gorilla/websocket v1.5.0
 	github.com/jackc/pgio v1.0.0
 	github.com/jackc/pglogrepl v0.0.0-20230826184802-9ed16cb201f6
 	github.com/jackc/pgx/v5 v5.4.3

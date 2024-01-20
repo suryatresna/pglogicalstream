@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"strings"
+
 	"github.com/apache/arrow/go/v14/arrow"
 	"github.com/apache/arrow/go/v14/arrow/array"
 	"github.com/apache/arrow/go/v14/arrow/memory"
 	"github.com/cloudquery/plugin-sdk/v4/scalar"
-	"github.com/usedatabrew/pglogicalstream/internal/schemas"
-	"strings"
+	"github.com/suryatresna/pglogicalstream/pkg/schemas"
 )
 
 type ChangeFilter struct {
