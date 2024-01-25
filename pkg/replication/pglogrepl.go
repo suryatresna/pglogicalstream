@@ -226,12 +226,13 @@ func CreateReplicationSlot(
 	if options.Temporary {
 		temporaryString = "TEMPORARY"
 	}
-	var snapshotString string
-	if options.SnapshotAction == "export" {
-		snapshotString = "(SNAPSHOT export)"
-	} else {
-		snapshotString = options.SnapshotAction
-	}
+	snapshotString := ""
+	// TODO: support snapshot
+	// if options.SnapshotAction == "export" {
+	// 	snapshotString = "(SNAPSHOT export)"
+	// } else {
+	// 	snapshotString = options.SnapshotAction
+	// }
 	sql := fmt.Sprintf("CREATE_REPLICATION_SLOT %s %s %s %s %s", slotName, temporaryString, options.Mode, outputPlugin, snapshotString)
 
 	return ParseCreateReplicationSlot(conn.Exec(ctx, sql))
