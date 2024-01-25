@@ -4,6 +4,7 @@ go 1.21.4
 
 require (
 	github.com/apache/arrow/go/v14 v14.0.0-20231026094059-c46fd24ededd
+	github.com/apache/arrow/go/v15 v15.0.0
 	github.com/charmbracelet/log v0.3.0
 	github.com/cloudquery/plugin-sdk/v4 v4.16.1
 	github.com/jackc/pgio v1.0.0
