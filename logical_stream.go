@@ -153,16 +153,7 @@ func NewPgStream(config Config, logger *log.Logger) (*Stream, error) {
 					SnapshotAction: "export",
 				})
 			if err != nil {
-				if strings.Contains(err.Error(), "replication slot") {
-					stream.logger.Warnf("create publication error %s", err.Error())
-					res2 := stream.pgConn.Exec(context.Background(), fmt.Sprintf("SELECT pg_drop_replication_slot('%s');", config.ReplicationSlotName))
-					_, err2 := res2.ReadAll()
-					if err2 != nil {
-						stream.logger.Fatalf("drop replication slot error %s", err2.Error())
-					}
-				} else {
-					stream.logger.Fatalf("Failed to create replication slot for the database: %s", err.Error())
-				}
+				stream.logger.Fatalf("Failed to create replication slot for the database: %s", err.Error())
 			}
 			stream.snapshotName = createSlotResult.SnapshotName
 			freshlyCreatedSlot = true
@@ -207,7 +198,16 @@ func (s *Stream) startLr() {
 	var err error
 	err = pglogrepl.StartReplication(context.Background(), s.pgConn, s.slotName, s.lsnrestart, pglogrepl.StartReplicationOptions{PluginArgs: pluginArguments})
 	if err != nil {
-		s.logger.Fatalf("Starting replication slot failed: %s", err.Error())
+		if strings.Contains(err.Error(), "replication slot") {
+			s.logger.Warnf("create publication error %s", err.Error())
+			res2 := s.pgConn.Exec(context.Background(), fmt.Sprintf("SELECT pg_drop_replication_slot('%s');", s.slotName))
+			_, err2 := res2.ReadAll()
+			if err2 != nil {
+				s.logger.Fatalf("drop replication slot error %s", err2.Error())
+			}
+		} else {
+			s.logger.Fatalf("Starting replication slot failed: %s", err.Error())
+		}
 	}
 	s.logger.Info("Started logical replication on slot", "slot-name", s.slotName)
 }
