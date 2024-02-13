@@ -153,7 +153,16 @@ func NewPgStream(config Config, logger *log.Logger) (*Stream, error) {
 					SnapshotAction: "export",
 				})
 			if err != nil {
-				stream.logger.Fatalf("Failed to create replication slot for the database: %s", err.Error())
+				if strings.Contains(err.Error(), "replication slot") {
+					stream.logger.Warnf("create publication error %s", err.Error())
+					res2 := stream.pgConn.Exec(context.Background(), fmt.Sprintf("SELECT pg_drop_replication_slot('%s');", config.ReplicationSlotName))
+					_, err2 := res2.ReadAll()
+					if err2 != nil {
+						stream.logger.Fatalf("drop replication slot error %s", err2.Error())
+					}
+				} else {
+					stream.logger.Fatalf("Failed to create replication slot for the database: %s", err.Error())
+				}
 			}
 			stream.snapshotName = createSlotResult.SnapshotName
 			freshlyCreatedSlot = true
